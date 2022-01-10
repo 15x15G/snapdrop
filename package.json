@@ -1,0 +1,28 @@
+{
+  "name": "snapdrop225",
+  "version": "1.0.0",
+  "description": "[Snapdrop](https://snapdrop.net): local file sharing in your browser. Inspired by Apple's Airdrop.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/15x15G/snapdrop.git"
+  },
+  "keywords": [],
+  "author": "15x15G",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/15x15G/snapdrop/issues"
+  },
+  "homepage": "https://github.com/15x15G/snapdrop#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "snapdrop": "file:./server"
+  }
+}
