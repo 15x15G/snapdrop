@@ -13,7 +13,7 @@ class ServerConnection {
     _connect() {
         clearTimeout(this._reconnectTimer);
         if (this._isConnected() || this._isConnecting()) return;
-        const ws = new WebSocket(this._endpoint() + "?peerid=" + this._peerId() + "&code=" + this._peerCode()+ "&roomid=" + this._roomId());
+        const ws = new WebSocket(this._endpoint() + "?peerid=" + this._peerId() + "&code=" + this._peerCode() + "&roomid=" + this._roomId());
         ws.binaryType = 'arraybuffer';
         ws.onopen = e => console.log('WS: server connected');
         ws.onmessage = e => this._onMessage(e.data);
@@ -81,7 +81,7 @@ class ServerConnection {
         }
         return peerId;
     }
-    
+
     _randomNum(length = 1) {
         let numStr = '';
         for (let i = 0; i < length; i++) {
@@ -89,7 +89,7 @@ class ServerConnection {
         }
         return numStr;
     }
-    
+
     _peerCode() {
         let peerCode = sessionStorage.getItem("peerCode");
         if (!peerCode) {
@@ -98,7 +98,7 @@ class ServerConnection {
         }
         return peerCode;
     }
-    
+
     _roomId() {
         let roomId = sessionStorage.getItem("roomId");
         //if (!roomId) {
@@ -240,8 +240,8 @@ class Peer {
     }
 
     _onChunkReceived(chunk) {
-        if(!(chunk.byteLength || chunk.size)) return;
-        
+        if (!(chunk.byteLength || chunk.size)) return;
+
         this._digester.unchunk(chunk);
         const progress = this._digester.progress;
         this._onDownloadProgress(progress);
@@ -308,7 +308,7 @@ class RTCPeer extends Peer {
     }
 
     _openChannel() {
-        const channel = this._conn.createDataChannel('data-channel', { 
+        const channel = this._conn.createDataChannel('data-channel', {
             ordered: true,
             reliable: true // Obsolete. See https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel/reliable
         });
@@ -334,7 +334,7 @@ class RTCPeer extends Peer {
 
         if (message.sdp) {
             this._conn.setRemoteDescription(new RTCSessionDescription(message.sdp))
-                .then( _ => {
+                .then(_ => {
                     if (message.sdp.type === 'offer') {
                         return this._conn.createAnswer()
                             .then(d => this._onDescription(d));
@@ -571,6 +571,6 @@ class Events {
 RTCPeer.config = {
     'sdpSemantics': 'unified-plan',
     'iceServers': [
-    urls: 'stun:stun.l.google.com:19302'
+        { urls: 'stun:stun.l.google.com:19302' }
     ]
 }

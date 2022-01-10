@@ -7,15 +7,15 @@ window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 window.WeChat = /MicroMessenger|wxwork/.test(navigator.userAgent);
 
 // Browser compatibility alert. 
-if (window.WeChat){alert('WeChat Built-in browser doesn\'t support download, please tap ··· in the upper right corner and select Open in Browser.');}
-if (!window.isRtcSupported){alert('Current browser doesn\'t support this website\'s function, it\'s recommended to use Chrome, Edge, FireFox or Safari.');}
+if (window.WeChat) { alert('WeChat Built-in browser doesn\'t support download, please tap ··· in the upper right corner and select Open in Browser.'); }
+if (!window.isRtcSupported) { alert('Current browser doesn\'t support this website\'s function, it\'s recommended to use Chrome, Edge, FireFox or Safari.'); }
 
 // set display name, room icon and tip text. 
 Events.on('display-name', e => {
     const me = e.detail.message;
     const $displayName = $('displayName');
     const $displayNote = $('displayNote');
-    if (sessionStorage.getItem("roomId")){
+    if (sessionStorage.getItem("roomId")) {
         $displayName.textContent = 'You are: ' + me.displayName + ' @ Room: ' + me.room;
         $displayNote.textContent = 'You can be discovered by everyone in this room';
         $('room').querySelector('svg use').setAttribute('xlink:href', '#exit');
@@ -279,11 +279,11 @@ class ReceiveDialog extends Dialog {
         $a.href = url;
         $a.download = file.name;
 
-        if(this._autoDownload()){
+        if (this._autoDownload()) {
             $a.click()
             return
         }
-        if(file.mime.split('/')[0] === 'image'){
+        if (file.mime.split('/')[0] === 'image') {
             console.log('the file is image');
             this.$el.querySelector('.preview').style.visibility = 'inherit';
             this.$el.querySelector("#img-preview").src = url;
@@ -320,7 +320,7 @@ class ReceiveDialog extends Dialog {
         this._dequeueFile();
     }
 
-    _autoDownload(){
+    _autoDownload() {
         return !this.$el.querySelector('#autoDownload').checked
     }
 }
@@ -339,16 +339,16 @@ class JoinRoomDialog extends Dialog {
         if (sessionStorage.getItem("roomId")) {
             sessionStorage.removeItem("roomId");
             location.reload();
-        }else {
+        } else {
             this.show();
         }
     }
 
     _join(e) {
         e.preventDefault();
-        let inputNum = this.$text.value.replace(/\D/g,'');
+        let inputNum = this.$text.value.replace(/\D/g, '');
         if (inputNum.length >= 6) {
-            inputNum = inputNum.substring(0,6);
+            inputNum = inputNum.substring(0, 6);
             sessionStorage.setItem("roomId", inputNum);
             location.reload();
         }
@@ -366,18 +366,18 @@ class ReceivedMsgsDialog extends Dialog {
         $('messages').addEventListener('click', e => this._showMsgs(e));
         if (!$$('.MsgItem') && sessionStorage.getItem("messages")) {
             let msgs = JSON.parse(sessionStorage.getItem("messages"));
-            for (let i=msgs.length-1; i >= 0; i--) {
+            for (let i = msgs.length - 1; i >= 0; i--) {
                 this._updateMsgsBox(msgs[i]);
             }
         }
     }
 
-    _showMsgs(e){
+    _showMsgs(e) {
         e.preventDefault();
         this.show();
     }
 
-    async _onCopy(e){
+    async _onCopy(e) {
         e.preventDefault();
         await navigator.clipboard.writeText(e.target.closest('.MsgItem').querySelector('.MsgContent').textContent);
         Events.fire('notify-user', 'Copied to clipboard');
@@ -401,16 +401,16 @@ class ReceivedMsgsDialog extends Dialog {
         item.innerHTML = this.html();
         this.$item = item;
     }
-    
+
     _updateMsgsBox(content) {
         this._initMsgItem();
         this.$item.querySelector(".MsgContent").textContent = content;
         $('MsgsBox').prepend(this.$item);
         let msgsItem = $('MsgsBox').querySelectorAll('.MsgItem');
-        if (msgsItem[20]) {$('MsgsBox').removeChild(msgsItem[20]);}
-        $('messages').style.display = 'flex';
+        if (msgsItem[20]) { $('MsgsBox').removeChild(msgsItem[20]); }
+        $('messages').removeAttribute('hidden');
         let copyBtn = $('MsgsBox').querySelectorAll('.copy');
-        for (let i=0; i < copyBtn.length; i++) {
+        for (let i = 0; i < copyBtn.length; i++) {
             copyBtn[i].addEventListener("click", e => this._onCopy(e));
         }
     }
@@ -480,10 +480,10 @@ class ReceiveTextDialog extends Dialog {
         window.blop.play();
         let msgs = new Array();
         let receivedMsgsDialog = new ReceivedMsgsDialog();
-        if (sessionStorage.getItem("messages")){
+        if (sessionStorage.getItem("messages")) {
             msgs = JSON.parse(sessionStorage.getItem("messages"));
             msgs.unshift(text);
-            if (msgs[20]) { msgs.splice(20);}
+            if (msgs[20]) { msgs.splice(20); }
             sessionStorage.setItem("messages", JSON.stringify(msgs));
             receivedMsgsDialog._updateMsgsBox(text);
         } else {
@@ -626,7 +626,7 @@ class WebShareTargetUI {
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
 
-        if(url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
+        if (url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
 
         if (!shareTargetText) return;
         window.shareTargetText = shareTargetText;
@@ -725,13 +725,13 @@ Events.on('load', () => {
 
     function animate() {
         if (loading || step % dw < dw - 5) {
-            requestAnimationFrame(function() {
+            requestAnimationFrame(function () {
                 drawCircles();
                 animate();
             });
         }
     }
-    window.animateBackground = function(l) {
+    window.animateBackground = function (l) {
         loading = l;
         animate();
     };

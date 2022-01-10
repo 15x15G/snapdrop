@@ -1,14 +1,14 @@
 var process = require('process')
 // Handle SIGINT
 process.on('SIGINT', () => {
-  console.info("SIGINT Received, exiting...")
-  process.exit(0)
+    console.info("SIGINT Received, exiting...")
+    process.exit(0)
 })
 
 // Handle SIGTERM
 process.on('SIGTERM', () => {
-  console.info("SIGTERM Received, exiting...")
-  process.exit(0)
+    console.info("SIGTERM Received, exiting...")
+    process.exit(0)
 })
 
 const parser = require('ua-parser-js');
@@ -175,20 +175,20 @@ class Peer {
         let params = (new URL(request.url, "http://server")).searchParams;
         this.id = params.get("peerid");
         this.code = params.get("code");
-        let incomeRoomId = params.get("roomid").replace(/\D/g,'');
+        let incomeRoomId = params.get("roomid").replace(/\D/g, '');
         if (incomeRoomId.length == 6) {
             this.room = incomeRoomId;
-        }else {
+        } else {
             this.room = '';
         }
     }
 
     _setIP(request) {
-        if (this.room){
+        if (this.room) {
             this.ip = this.room;
-        }else if (request.headers['x-forwarded-for']) {
+        } else if (request.headers['x-forwarded-for']) {
             this.ip = request.headers['x-forwarded-for'].split(/\s*,\s*/)[0];
-        }else {
+        } else {
             this.ip = request.connection.remoteAddress;
         }
         // IPv4 and IPv6 use different values to refer to localhost
@@ -206,18 +206,18 @@ class Peer {
 
 
         let deviceName = '';
-        
+
         if (ua.os && ua.os.name) {
             deviceName = ua.os.name.replace('Mac OS', 'Mac') + ' ';
         }
-        
+
         if (ua.device.model) {
             deviceName += ua.device.model;
         } else {
             deviceName += ua.browser.name;
         }
 
-        if(!deviceName)
+        if (!deviceName)
             deviceName = 'Unknown';
 
         let displayName = this.code;
